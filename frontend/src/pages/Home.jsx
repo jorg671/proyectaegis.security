@@ -13,13 +13,18 @@ const SERVICE_MAP = {
 export default function Home() {
   const location = useLocation()
   const [servicio, setServicio] = useState('')
+  const [cargando, setCargando] = useState(false)
+  const [respuesta, setRespuesta] = useState('')
+  const [tipoRespuesta, setTipoRespuesta] = useState('')
 
-  useEffect(() => {
+   useEffect(() => {
     const params = new URLSearchParams(location.search)
     const key = params.get('servicio')
+
     if (key && SERVICE_MAP[key]) {
       setServicio(SERVICE_MAP[key])
     }
+
     if (location.hash) {
       const el = document.querySelector(location.hash)
       if (el) {
@@ -27,7 +32,51 @@ export default function Home() {
       }
     }
   }, [location])
+  const enviarSolicitud = async (e) => {
+    e.preventDefault()
 
+    setCargando(true)
+    setRespuesta('')
+    setTipoRespuesta('')
+
+    const formulario = e.target
+
+    const datos = {
+      nombre: formulario.nombre.value,
+      email: formulario.email.value,
+      servicio: servicio,
+      mensaje: formulario.mensaje.value,
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/api/solicitudes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datos),
+      })
+
+      const resultado = await response.json()
+
+      if (!response.ok) {
+        throw new Error(resultado.mensaje || 'No se pudo enviar la solicitud')
+      }
+
+      setRespuesta(resultado.mensaje)
+      setTipoRespuesta('exito')
+      formulario.reset()
+      setServicio('')
+
+    } catch (error) {
+      setRespuesta(error.message || 'Error al enviar la solicitud')
+      setTipoRespuesta('error')
+
+    } finally {
+      setCargando(false)
+    }
+  }
+  
   return (
     <>
       <Header />
@@ -199,9 +248,8 @@ export default function Home() {
                 Cuéntanos qué necesitas y nos pondremos en contacto contigo.
               </p>
               <form
-                className="contact-form"
-                action="https://formspree.io/f/xjykjrwo"
-                method="POST"
+                  className="contact-form"
+                  onSubmit={enviarSolicitud}
               >
                 <input
                   type="text"
@@ -239,10 +287,17 @@ export default function Home() {
                   placeholder="Cuéntanos brevemente qué necesitas..."
                   required
                 />
-                <button type="submit" className="btn">
-                  Enviar solicitud
+                <button type="submit" className="btn" disabled={cargando}>
+                  {cargando ? 'Enviando...' : 'Enviar solicitud'}
                 </button>
-              </form>
+             
+                {respuesta && (
+                <p className={tipoRespuesta === 'exito' ? 'mensaje-exito' : 'mensaje-error'}>
+                  {respuesta}
+                </p>
+                )}
+             
+               </form>
             </div>
           </div>
         </section>
