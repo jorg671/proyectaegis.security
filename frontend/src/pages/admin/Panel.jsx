@@ -23,7 +23,7 @@ export default function Panel() {
       const token = await usuario.getIdToken()
 
       const response = await fetch(
-        'http://localhost:3000/api/admin/solicitudes',
+        'https://aegis-security-backend.onrender.com/api/admin/solicitudes',
         {
           method: 'GET',
           headers: {
@@ -93,7 +93,7 @@ export default function Panel() {
       const token = await user.getIdToken()
 
       const response = await fetch(
-        `http://localhost:3000/api/admin/solicitudes/${id}`,
+        `https://aegis-security-backend.onrender.com/api/admin/solicitudes/${id}`,
         {
           method: 'PATCH',
           headers: {

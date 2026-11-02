@@ -49,8 +49,8 @@ export default function Home() {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/solicitudes', {
-        method: 'POST',
+const response = await fetch('https://aegis-security-backend.onrender.com/api/solicitudes', {        
+  method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
