@@ -67,7 +67,6 @@ export default function Header({ variant = 'home' }) {
             <>
               <li>{navLink('#inicio', 'Inicio')}</li>
               <li>{navLink('#paquetes', 'Servicios')}</li>
-              <li>{navLink('#paquetes', 'Paquetes')}</li>
               <li>{navLink('#capacitacion', 'Capacitación')}</li>
               <li>{navLink('#nosotros', 'Nosotros')}</li>
               <li>{navLink('#contacto', 'Contacto')}</li>
