@@ -59,9 +59,17 @@ const enviarCorreoBrevo = async ({ nombre, email, servicio, mensaje }) => {
 
     const resultado = await respuesta.json().catch(() => ({}));
 
-    if (!respuesta.ok) {
-        throw new Error(resultado.message || "Brevo no pudo enviar el correo");
-    }
+if (!respuesta.ok) {
+    console.error("Respuesta completa de Brevo:", {
+        status: respuesta.status,
+        code: resultado.code,
+        message: resultado.message
+    });
+
+    throw new Error(
+        `Brevo (${respuesta.status}): ${resultado.code || "Sin código"} - ${resultado.message || "Error desconocido"}`
+    );
+}
 
     return resultado;
 };
@@ -280,7 +288,6 @@ app.post("/api/solicitudes", async (req, res) => {
         });
     }
 });
-
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
