@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const { Resend } = require("resend");
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+
+
 console.log("URL Supabase:", process.env.SUPABASE_URL);
 const supabase = require("./src/config/supabase");
 const supabaseAdmin = require("./src/config/supabaseAdmin");
@@ -13,6 +13,58 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+
+// Enviar notificaciones mediante Brevo
+const enviarCorreoBrevo = async ({ nombre, email, servicio, mensaje }) => {
+    const escaparHTML = (texto) =>
+        String(texto).replace(/[&<>"']/g, (caracter) => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[caracter]);
+
+    const respuesta = await fetch("https://api.brevo.com/v3/smtp/email", {
+        method: "POST",
+        headers: {
+            "accept": "application/json",
+            "api-key": process.env.BREVO_API_KEY,
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({
+            sender: {
+                name: process.env.BREVO_SENDER_NAME,
+                email: process.env.BREVO_SENDER_EMAIL
+            },
+            to: [
+                {
+                    email: process.env.EMAIL_DESTINO
+                }
+            ],
+            replyTo: {
+                email: email,
+                name: nombre
+            },
+            subject: "Nueva solicitud - Aegis Security",
+            htmlContent: `
+                <h2>Nueva solicitud recibida</h2>
+                <p><strong>Nombre:</strong> ${escaparHTML(nombre)}</p>
+                <p><strong>Correo:</strong> ${escaparHTML(email)}</p>
+                <p><strong>Servicio:</strong> ${escaparHTML(servicio)}</p>
+                <p><strong>Mensaje:</strong> ${escaparHTML(mensaje)}</p>
+            `
+        })
+    });
+
+    const resultado = await respuesta.json().catch(() => ({}));
+
+    if (!respuesta.ok) {
+        throw new Error(resultado.message || "Brevo no pudo enviar el correo");
+    }
+
+    return resultado;
+};
 // Verificar que el usuario sea el administrador
 const verificarAdmin = async (req, res, next) => {
     try {
@@ -163,6 +215,7 @@ app.patch("/api/admin/solicitudes/:id", verificarAdmin, async (req, res) => {
 
 
 // Recibir y guardar solicitudes de contacto
+// Recibir y guardar solicitudes de contacto
 app.post("/api/solicitudes", async (req, res) => {
     try {
         const { nombre, email, servicio, mensaje } = req.body;
@@ -196,30 +249,27 @@ app.post("/api/solicitudes", async (req, res) => {
             });
         }
 
-      // Enviar notificación por correo
-const { data, error: errorCorreo } = await resend.emails.send({
-    from: process.env.RESEND_FROM,
-    to: [process.env.EMAIL_DESTINO],
-    subject: "Nueva solicitud - Aegis Security",
-    html: `
-        <h2>Nueva solicitud recibida</h2>
-        <p><strong>Nombre:</strong> ${nombre}</p>
-        <p><strong>Correo:</strong> ${email}</p>
-        <p><strong>Servicio:</strong> ${servicio}</p>
-        <p><strong>Mensaje:</strong> ${mensaje}</p>
-    `
-});
+        // Enviar notificación mediante Brevo
+        let errorCorreo = false;
 
-if (errorCorreo) {
-    console.error("Error al enviar correo:", errorCorreo);
-}
+        try {
+            await enviarCorreoBrevo({
+                nombre: nombre.trim(),
+                email: email.trim(),
+                servicio: servicio.trim(),
+                mensaje: mensaje.trim()
+            });
+        } catch (error) {
+            errorCorreo = true;
+            console.error("Error al enviar correo con Brevo:", error.message);
+        }
 
-res.status(201).json({
-    exito: true,
-    mensaje: errorCorreo
-        ? "Solicitud guardada, pero no se pudo enviar el correo"
-        : "Solicitud enviada correctamente"
-});
+        res.status(201).json({
+            exito: true,
+            mensaje: errorCorreo
+                ? "Solicitud guardada, pero no se pudo enviar el correo"
+                : "Solicitud enviada correctamente"
+        });
 
     } catch (error) {
         console.log("Error inesperado:", error);
@@ -230,7 +280,6 @@ res.status(201).json({
         });
     }
 });
-
 
 // Iniciar servidor
 app.listen(PORT, () => {
