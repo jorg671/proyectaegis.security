@@ -1155,7 +1155,7 @@ textarea {
 
 .request-stats {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 16px;
     margin: 25px 0 35px;
 }
@@ -1201,12 +1201,20 @@ textarea {
     color: #55c7ff;
 }
 
-.request-stat.finished {
+.request-stat.approved {
     border-color: rgba(85, 223, 160, .35);
 }
 
-.request-stat.finished h3 {
+.request-stat.approved h3 {
     color: #55dfa0;
+}
+
+.request-stat.finished {
+    border-color: rgba(182, 160, 255, .35);
+}
+
+.request-stat.finished h3 {
+    color: #b6a0ff;
 }
 
 @media (max-width: 700px) {
@@ -1263,4 +1271,12 @@ textarea {
     .filter-container select {
         width: 100%;
     }
+}
+
+/* Aviso mientras el servidor gratuito despierta */
+.form-hint {
+    margin: 10px 0 0;
+    color: #9eb0c2;
+    font-size: 13px;
+    line-height: 1.5;
 }

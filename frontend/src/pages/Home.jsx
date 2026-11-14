@@ -291,6 +291,14 @@ const response = await fetch(`${API_URL}/api/solicitudes`, {
                 <button type="submit" className="btn" disabled={cargando}>
                   {cargando ? 'Enviando...' : 'Enviar solicitud'}
                 </button>
+
+                {/* El backend gratuito se duerme: avisamos para que no parezca roto */}
+                {cargando && (
+                  <p className="form-hint">
+                    Si es la primera solicitud del día, el servidor puede tardar
+                    hasta un minuto en despertar. No cierres la página.
+                  </p>
+                )}
              
                 {respuesta && (
                 <p className={tipoRespuesta === 'exito' ? 'mensaje-exito' : 'mensaje-error'}>

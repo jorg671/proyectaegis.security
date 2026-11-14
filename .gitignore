@@ -1,25 +1,25 @@
 # Dependencias
 node_modules/
-**/node_modules/
+backend/node_modules/
+frontend/node_modules/
 
-# Variables de entorno
+# Variables de entorno y secretos
 .env
-.env.*
-!.env.example
-!.env.*.example
+backend/.env
+frontend/.env
+*.env
+.env.local
+.env.production
 
-# Credenciales privadas
+# Firebase service account
+backend/firebase-service-account.json
+backend/firebase-service-account.json.json
 **/firebase-service-account*.json
-**/service-account*.json
 
-# Archivos de compilación
-dist/
-build/
-coverage/
-
-# Registros
-*.log
+# Build
+frontend/dist/
+backend/dist/
 
 # Sistema
 .DS_Store
-Thumbs.db
+*.log
