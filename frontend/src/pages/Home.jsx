@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import Header from '../components/Header'
-import Footer from '../components/Footer'
+import Footer from '../components/Footer'
+import { API_URL } from '../config'
 
 const SERVICE_MAP = {
   hardware: 'Revisión de Hardware',
@@ -49,7 +50,7 @@ export default function Home() {
     }
 
     try {
-const response = await fetch('https://aegis-security-backend.onrender.com/api/solicitudes', {        
+const response = await fetch(`${API_URL}/api/solicitudes`, {        
   method: 'POST',
         headers: {
           'Content-Type': 'application/json',

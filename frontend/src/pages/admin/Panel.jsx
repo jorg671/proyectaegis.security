@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { onAuthStateChanged, signOut } from 'firebase/auth'
-import { auth } from '../../firebase'
+import { auth } from '../../firebase'
+import { API_URL } from '../../config'
 
 export default function Panel() {
   const navigate = useNavigate()
@@ -23,7 +24,7 @@ export default function Panel() {
       const token = await usuario.getIdToken()
 
       const response = await fetch(
-        'https://aegis-security-backend.onrender.com/api/admin/solicitudes',
+        `${API_URL}/api/admin/solicitudes`,
         {
           method: 'GET',
           headers: {
@@ -93,7 +94,7 @@ export default function Panel() {
       const token = await user.getIdToken()
 
       const response = await fetch(
-        `https://aegis-security-backend.onrender.com/api/admin/solicitudes/${id}`,
+        `${API_URL}/api/admin/solicitudes/${id}`,
         {
           method: 'PATCH',
           headers: {
