@@ -8,6 +8,12 @@ const {
 
 const router = Router();
 
+// Los datos de clientes no deben quedar guardados en cachés del navegador o de proxies
+router.use((req, res, next) => {
+    res.set("Cache-Control", "no-store");
+    next();
+});
+
 // Se aplica una sola vez a todas las rutas de este archivo
 router.use(verificarAdmin);
 

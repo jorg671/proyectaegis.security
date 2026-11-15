@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -13,6 +13,7 @@ const SERVICE_MAP = {
 
 export default function Home() {
   const location = useLocation()
+  const mensajeRef = useRef(null)
   const [servicio, setServicio] = useState('')
   const [cargando, setCargando] = useState(false)
   const [respuesta, setRespuesta] = useState('')
@@ -24,6 +25,12 @@ export default function Home() {
 
     if (key && SERVICE_MAP[key]) {
       setServicio(SERVICE_MAP[key])
+    }
+
+    // Mensaje redactado por el asistente de IA (máximo 2000, igual que el formulario)
+    const mensajeSugerido = params.get('mensaje')
+    if (mensajeSugerido && mensajeRef.current) {
+      mensajeRef.current.value = mensajeSugerido.slice(0, 2000)
     }
 
     if (location.hash) {
@@ -256,12 +263,14 @@ const response = await fetch(`${API_URL}/api/solicitudes`, {
                   type="text"
                   name="nombre"
                   placeholder="Nombre"
+                  maxLength={100}
                   required
                 />
                 <input
                   type="email"
                   name="email"
                   placeholder="Correo electrónico"
+                  maxLength={254}
                   required
                 />
                 <select
@@ -284,8 +293,10 @@ const response = await fetch(`${API_URL}/api/solicitudes`, {
                   </option>
                 </select>
                 <textarea
+                  ref={mensajeRef}
                   name="mensaje"
                   placeholder="Cuéntanos brevemente qué necesitas..."
+                  maxLength={2000}
                   required
                 />
                 <button type="submit" className="btn" disabled={cargando}>

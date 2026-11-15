@@ -5,6 +5,7 @@
 const supabase = require("../config/supabase");
 const supabaseAdmin = require("../config/supabaseAdmin");
 const { enviarNotificacionSolicitud } = require("../services/correo.service");
+const { validarSolicitud } = require("../utils/validarSolicitud");
 
 // Estados que el administrador puede asignar (lista blanca)
 const ESTADOS_PERMITIDOS = ["Pendiente", "En revisión", "Aprobada", "Finalizada"];
@@ -12,21 +13,12 @@ const ESTADOS_PERMITIDOS = ["Pendiente", "En revisión", "Aprobada", "Finalizada
 // PÚBLICO: el visitante envía el formulario de contacto
 const crearSolicitud = async (req, res) => {
     try {
-        const { nombre, email, servicio, mensaje } = req.body;
+        // Valida tipos, longitudes y formato del correo; devuelve los datos ya limpios
+        const { datos, error: errorValidacion } = validarSolicitud(req.body);
 
-        if (!nombre || !email || !servicio || !mensaje) {
-            return res.status(400).json({
-                exito: false,
-                mensaje: "Todos los campos son obligatorios"
-            });
+        if (errorValidacion) {
+            return res.status(400).json({ exito: false, mensaje: errorValidacion });
         }
-
-        const datos = {
-            nombre: nombre.trim(),
-            email: email.trim(),
-            servicio: servicio.trim(),
-            mensaje: mensaje.trim()
-        };
 
         // 1. Guardar primero: la solicitud no se pierde aunque falle el correo
         const { error } = await supabase.from("solicitudes").insert([
