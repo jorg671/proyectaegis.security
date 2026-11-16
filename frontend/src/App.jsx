@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import ServicioPage from './pages/servicios/ServicioPage'
 import Login from './pages/admin/Login'
 import Panel from './pages/admin/Panel'
+import AsistenteIA from './components/AsistenteIA'
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
         <Route path="/admin/login" element={<Login />} />
         <Route path="/admin/panel" element={<Panel />} />
       </Routes>
+      {/* Burbuja de IA: se oculta sola en /admin */}
+      <AsistenteIA />
     </BrowserRouter>
   )
 }

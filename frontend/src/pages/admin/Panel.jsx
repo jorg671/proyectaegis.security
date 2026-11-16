@@ -95,8 +95,8 @@ export default function Panel() {
 
           <div className="card">
             <h3>IA</h3>
-            <p className="card-value">Chatbase</p>
-            <span>Asistente entrenado</span>
+            <p className="card-value">Groq</p>
+            <span>Asistente propio + recomendador</span>
           </div>
         </div>
 
@@ -114,17 +114,6 @@ export default function Panel() {
           errorAccion={errorAccion}
           onCambiarEstado={cambiarEstado}
         />
-
-        <h2 className="section-title">Gestión</h2>
-        <div className="links">
-          <a
-            href="https://www.chatbase.co/dashboard"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Actualizar IA (Chatbase)
-          </a>
-        </div>
 
         <h2 className="section-title">Accesos rápidos del sitio</h2>
         <AccesosRapidos />

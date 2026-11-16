@@ -10,6 +10,7 @@ const limitarPeticiones = require("./middleware/limitarPeticiones");
 const { rutaNoEncontrada, manejarErrores } = require("./middleware/manejarErrores");
 const solicitudesRoutes = require("./routes/solicitudes.routes");
 const adminRoutes = require("./routes/admin.routes");
+const iaRoutes = require("./routes/ia.routes");
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/solicitudes", solicitudesRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/ia", iaRoutes);
 
 // Siempre al final: lo que ninguna ruta atendió y los errores
 app.use(rutaNoEncontrada);
