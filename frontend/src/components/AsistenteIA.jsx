@@ -12,8 +12,7 @@ import { servicios } from '../data/servicios'
  * Toda la inteligencia (catálogo, tono, reglas) vive en el backend; aquí solo
  * hay interfaz y estado de la conversación.
  */
-
-const MAX_CARACTERES_CHAT = 500
+const MAX_CARACTERES_CHAT = 2000
 const MAX_CARACTERES_CASO = 1000
 const MAX_HISTORIAL = 10 // el backend también lo limita; así no enviamos de más
 const MS_AVISO_LENTO = 8000 // pasado este tiempo, avisamos que el servidor despierta

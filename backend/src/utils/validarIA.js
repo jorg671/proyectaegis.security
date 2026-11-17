@@ -7,7 +7,7 @@ const { SLUGS_VALIDOS } = require("../data/catalogo");
 
 const MAX_MENSAJES_RECIBIDOS = 20; // más que esto se rechaza
 const MAX_MENSAJES_HISTORIAL = 10; // al modelo solo se envían los últimos 10
-const MAX_LARGO_MENSAJE = 500;
+const MAX_LARGO_MENSAJE = 2000;
 const MIN_LARGO_DESCRIPCION = 10;
 const MAX_LARGO_DESCRIPCION = 1000;
 
