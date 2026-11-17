@@ -296,8 +296,7 @@ export default function AsistenteIA() {
       </form>
 
       <p className="ia-aviso">
-        Es una IA y puede equivocarse. Para confirmar precios y fechas usa el
-        formulario de contacto.
+        Es una IA y puede equivocarse. Los precios son aproximados y la cotización definitiva depende de la evaluación de tu solicitud.
       </p>
     </section>
   )

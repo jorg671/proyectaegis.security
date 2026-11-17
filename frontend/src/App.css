@@ -615,28 +615,11 @@ textarea {
     color: #00d4ff;
 }
 
-.service-price {
-    background: #0a1725;
-    border: 1px solid #183249;
-    border-radius: 12px;
-    padding: 28px 30px;
-    margin-bottom: 40px;
-    text-align: center;
-}
 
-.service-price span {
-    display: block;
-    color: #8fa2b7;
-    font-size: 13px;
-    letter-spacing: 2px;
-    margin-bottom: 8px;
-}
 
-.service-price strong {
-    font-size: 28px;
-    color: #00d4ff;
-}
 
+
+    
 /* ==================================================
    ADMINISTRACIÓN - INICIO DE SESIÓN
 ================================================== */
