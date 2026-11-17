@@ -49,7 +49,7 @@ export const servicios = [
           'Se entregan acciones concretas: qué corregir, qué reforzar, qué reemplazar y qué prácticas adoptar para reducir riesgos.',
       },
     ],
-    precio: { etiqueta: 'Precio', valor: '$80.000 COP' },
+    
   },
   {
     slug: 'software',
@@ -89,7 +89,7 @@ export const servicios = [
           'Se entregan acciones prioritarias para cerrar brechas, endurecer configuraciones y mejorar la postura de seguridad.',
       },
     ],
-    precio: { etiqueta: 'Precio', valor: '$120.000 COP' },
+    
   },
   {
     slug: 'dual',
@@ -133,10 +133,7 @@ export const servicios = [
           'Recibes un resumen claro del estado del hardware y del software, los hallazgos principales y las recomendaciones para mejorar la seguridad del sistema.',
       },
     ],
-    precio: {
-      etiqueta: 'Análisis integral',
-      valor: 'Precio menor que por separado',
-    },
+    
   },
 ]
 

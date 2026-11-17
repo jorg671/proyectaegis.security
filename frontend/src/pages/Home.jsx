@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import Header from '../components/Header'
-import Footer from '../components/Footer'
+import Footer from '../components/Footer'
+
 import { API_URL } from '../config'
 
 const SERVICE_MAP = {
@@ -161,9 +162,10 @@ const response = await fetch(`${API_URL}/api/solicitudes`, {
                   <h3>Dual Guard</h3>
                   <p className="package-type">Hardware + Software</p>
                   <p>
-                    Combina las dos revisiones en un solo servicio. Su precio
-                    será menor que contratar Hardware Guard y Software Sentinel
-                    por separado.
+                   <p>
+                     Combina las revisiones de hardware y software en un solo
+                    servicio para obtener un análisis integral de seguridad.
+                    </p>
                   </p>
                   <Link to="/servicios/dual" className="package-btn">
                     Solicitar Dual Guard

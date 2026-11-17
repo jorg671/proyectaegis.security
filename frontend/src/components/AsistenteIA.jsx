@@ -29,7 +29,7 @@ const SALUDO = {
   rol: 'assistant',
   local: true, // mensaje de la interfaz: no se envía al modelo como historial
   texto:
-    '¡Hola! Soy el asistente de Aegis Security. Puedo contarte sobre nuestros servicios y precios, o ayudarte a elegir el que necesitas.',
+    '¡Hola! Soy el asistente de Aegis Security. Puedo explicarte nuestros servicios, proporcionarte precios aproximados y ayudarte a solicitar una cotización personalizada.',
 }
 
 const PREGUNTAS_RAPIDAS = [

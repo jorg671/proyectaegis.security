@@ -70,10 +70,7 @@ export default function ServicioPage() {
             </ul>
           </div>
 
-          <div className="service-price">
-            <span>{servicio.precio.etiqueta}</span>
-            <strong>{servicio.precio.valor}</strong>
-          </div>
+          
 
           {/* El Home lee ?servicio= para preseleccionar el formulario */}
           <Link to={`/?servicio=${servicio.slug}#contacto`} className="btn">
